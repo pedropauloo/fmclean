@@ -26,7 +26,15 @@ end
 theorem doubleneg_law :
   ¬¬P ↔ P  :=
 begin
-  sorry,
+  split,
+
+  intro nnp,
+  by_contradiction,
+  contradiction,
+
+  intro p,
+  intro np,
+  contradiction,
 end
 
 ------------------------------------------------
@@ -130,7 +138,15 @@ end
 theorem lem_irrefutable :
   ¬¬(P∨¬P)  :=
 begin
-  sorry,
+  intro n_p_or_np,
+  have h : P ∨ ¬P,
+  right, 
+  intro np,
+  have h2 : P ∨ ¬P,
+  left,
+  assumption,
+  contradiction,
+  contradiction,
 end
 
 
@@ -141,7 +157,18 @@ end
 theorem peirce_law_weak :
   ((P → Q) → P) → ¬¬P  :=
 begin
-  sorry,
+  intro p_q_p,
+  intro np,
+  by_cases h : (P → Q),
+
+  have h2 : P := p_q_p h,
+  contradiction,
+
+  have h2 : (P → Q),
+  intro p,
+  contradiction,
+  have h3 : P := p_q_p h2,
+  contradiction,
 end
 
 
@@ -179,7 +206,20 @@ end
 theorem demorgan_disj :
   ¬(P∨Q) → (¬P ∧ ¬Q)  :=
 begin
-  sorry,
+  intro n_p_or_q,
+  split,
+  
+  intro p,
+  have h2 : P ∨ Q,
+  left,
+  assumption,
+  contradiction,
+
+  intro q,
+  have h2 : P ∨ Q,
+  right,
+  assumption,
+  contradiction,
 end
 
 theorem demorgan_disj_converse :
@@ -193,10 +233,25 @@ begin
   contradiction,
 end
 
+-- try again without magic
 theorem demorgan_conj :
   ¬(P∧Q) → (¬Q ∨ ¬P)  :=
 begin
-  sorry,
+  intro p_and_q,
+  by_contradiction nq_and_np,
+  have h : (P ∧ Q),
+  
+  split,
+  by_contradiction h3,
+  apply nq_and_np,
+  right,
+  assumption,
+
+  by_contradiction h3,
+  apply nq_and_np,
+  left,
+  assumption,
+  contradiction,
 end
 
 theorem demorgan_conj_converse :
@@ -210,16 +265,57 @@ begin
   contradiction,
 end
 
+-- try again withou magic
 theorem demorgan_conj_law :
   ¬(P∧Q) ↔ (¬Q ∨ ¬P)  :=
 begin
-  sorry,
+  split,
+  intro impl,
+  by_contradiction nqp,
+  apply impl,
+  split,
+  by_contradiction np,
+  apply nqp,
+  right,
+  assumption,
+  by_contradiction nq,
+  apply nqp,
+  left,
+  assumption,
+
+  intro nq_np,
+  intro pq,
+  cases pq with p q,
+  cases nq_np with nq np,
+  contradiction,
+  contradiction,
 end
 
 theorem demorgan_disj_law :
   ¬(P∨Q) ↔ (¬P ∧ ¬Q)  :=
 begin
-  sorry,
+  split,
+    intro n_p_or_q,
+    split,
+      -- case p
+      intro p,
+      have h : (P ∨ Q),
+      left,
+      assumption,
+      contradiction,
+      -- case: q
+      intro q,
+      have h: (P ∨ Q),
+      right,
+      assumption,
+    contradiction,
+    
+    intro np_and_nq,
+    intro p_or_q,
+    cases np_and_nq with hnp hnq,
+    cases p_or_q with hp hq,
+    contradiction,
+    contradiction,
 end
 
 ------------------------------------------------
@@ -229,25 +325,74 @@ end
 theorem distr_conj_disj :
   P∧(Q∨R) → (P∧Q)∨(P∧R)  :=
 begin
-  sorry,
+  intro p_and_q_or_r,
+  cases p_and_q_or_r with p q_or_r,
+  cases q_or_r with q r,
+  
+  left,
+  split,
+  assumption,
+  assumption,
+
+  right,
+  split,
+  assumption,
+  assumption,
 end
 
 theorem distr_conj_disj_converse :
   (P∧Q)∨(P∧R) → P∧(Q∨R)  :=
 begin
-  sorry,
+  intro pq_pr,
+  cases pq_pr with p_and_q p_and_r,
+  cases p_and_q with p q,
+  split,
+  assumption,
+  left,
+  assumption,
+
+  cases p_and_r with p r,
+  split,
+  assumption,
+  right,
+  assumption,
 end
 
 theorem distr_disj_conj :
   P∨(Q∧R) → (P∨Q)∧(P∨R)  :=
 begin
-  sorry,
+  intro p_or_qr,
+
+  cases p_or_qr with p qr,
+  split,
+  left,
+  assumption,
+  left,
+  assumption,
+
+  cases qr with q r,
+  split,
+  right,
+  assumption,
+  right,
+  assumption,
 end
 
 theorem distr_disj_conj_converse :
   (P∨Q)∧(P∨R) → P∨(Q∧R)  :=
 begin
-  sorry,
+  intro pq_and_pr,
+  cases pq_and_pr with pq pr,
+  cases pq with p q,
+  left,
+  assumption,
+  cases pr with p r,
+  left,
+  assumption,
+  right,
+  split,
+  assumption,
+  assumption,
 end
 
 
@@ -258,13 +403,26 @@ end
 theorem curry_prop :
   ((P∧Q)→R) → (P→(Q→R))  :=
 begin
-  sorry,
+  intro pq_r,
+  intro p,
+  intro q,
+  have h : P ∧ Q,
+  split,
+  assumption,
+  assumption,
+  have h2 : R := pq_r h,
+  assumption, 
 end
 
 theorem uncurry_prop :
   (P→(Q→R)) → ((P∧Q)→R)  :=
 begin
-  sorry,
+  intro p_q_r,
+  intro pq,
+  cases pq with p q,
+  have h1 : Q → R := p_q_r p,
+  have h2 : R := h1 q,
+  assumption,
 end
 
 
@@ -275,7 +433,8 @@ end
 theorem impl_refl :
   P → P  :=
 begin
-  sorry,
+intro p,
+assumption,
 end
 
 ------------------------------------------------
@@ -285,37 +444,59 @@ end
 theorem weaken_disj_right :
   P → (P∨Q)  :=
 begin
-  sorry,
+  intro p,
+  left,
+  assumption,
 end
 
 theorem weaken_disj_left :
   Q → (P∨Q)  :=
 begin
-  sorry,
+  intro q,
+  right,
+  assumption,
 end
 
 theorem weaken_conj_right :
   (P∧Q) → P  :=
 begin
-  sorry,
+  intro pq,
+  cases pq with p q,
+  assumption,
 end
 
 theorem weaken_conj_left :
   (P∧Q) → Q  :=
 begin
-  sorry,
+  intro pq,
+  cases pq with p q,
+  assumption,
 end
 
 theorem conj_idempot :
   (P∧P) ↔ P :=
 begin
-  sorry,
+  split,
+  intro pp,
+  cases pp with p p,
+  assumption,
+
+  intro pp,
+  split,
+  assumption,
+  assumption, 
 end
 
 theorem disj_idempot :
   (P∨P) ↔ P  :=
 begin
-  sorry,
+  split, 
+  intro pp,
+  cases pp with p p,
+  repeat {assumption},
+  intro pp,
+  left,
+  assumption,
 end
 
 end propositional
@@ -337,37 +518,83 @@ variables P Q : U -> Prop
 theorem demorgan_exists :
   ¬(∃x, P x) → (∀x, ¬P x)  :=
 begin
-  sorry,
+  intro nex_px,
+  intro x,
+  intro px,
+  apply nex_px,
+  existsi x,
+  assumption,
 end
 
 theorem demorgan_exists_converse :
   (∀x, ¬P x) → ¬(∃x, P x)  :=
 begin
-  sorry,
+  intro px_npx,
+  intro ex_px,
+  cases ex_px with x px,
+  have h : ¬P x := px_npx x,
+  contradiction,
 end
-
+-- try again without magic
 theorem demorgan_forall :
   ¬(∀x, P x) → (∃x, ¬P x)  :=
 begin
-  sorry,
+  intro pu_px,
+  by_contradiction ne,
+  apply pu_px,
+  intro x,
+  by_contradiction npx,
+  apply ne,
+  existsi x,
+  assumption,
 end
 
 theorem demorgan_forall_converse :
   (∃x, ¬P x) → ¬(∀x, P x)  :=
 begin
-  sorry,
+  intro e_npx,
+  intro p_px,
+  cases e_npx with x npx,
+  have h : P x := p_px x,
+  contradiction,
 end
 
 theorem demorgan_forall_law :
   ¬(∀x, P x) ↔ (∃x, ¬P x)  :=
 begin
-  sorry,
+  split,
+  intro np_px,
+  by_contradiction e_npx,
+  apply np_px,
+  intro x,
+  by_contradiction px,
+  apply e_npx,
+  existsi x,
+  assumption,
+
+  intro e_px,
+  intro p_px,
+  cases e_px with x px,
+  have h : P x := p_px x,
+  contradiction, 
 end
 
 theorem demorgan_exists_law :
   ¬(∃x, P x) ↔ (∀x, ¬P x)  :=
 begin
-  sorry,
+  split,
+  intro ne_px,
+  intro x,
+  intro px,
+  apply ne_px,
+  existsi x,
+  assumption,
+
+  intro p_npx,
+  intro e_px,
+  cases e_px with x px,
+  have h : ¬P x := p_npx x,
+  contradiction,
 end
 
 
@@ -378,25 +605,38 @@ end
 theorem exists_as_neg_forall :
   (∃x, P x) → ¬(∀x, ¬P x)  :=
 begin
-  sorry,
+  intro e_px,
+  intro p_npx,
+  cases e_px with x px,
+  have h: ¬P x := p_npx x,
+  contradiction,
 end
 
 theorem forall_as_neg_exists :
   (∀x, P x) → ¬(∃x, ¬P x)  :=
 begin
-  sorry,
+  intro p_px,
+  intro e_npx,
+  cases e_npx with x npx,
+  have h: P x := p_px x,
+  contradiction,
 end
 
 theorem forall_as_neg_exists_converse :
   ¬(∃x, ¬P x) → (∀x, P x)  :=
 begin
-  sorry,
+  intro ne_npx,
+  intro x,
+  by_contradiction np_x,
+  apply ne_npx,
+  existsi x,
+  assumption,
 end
 
 theorem exists_as_neg_forall_converse :
   ¬(∀x, ¬P x) → (∃x, P x)  :=
 begin
-  sorry,
+  sorry,    
 end
 
 theorem forall_as_neg_exists_law :
