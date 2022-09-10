@@ -422,7 +422,7 @@ begin
   cases pq with p q,
   have h1 : Q → R := p_q_r p,
   have h2 : R := h1 q,
-  assumption,
+  assumption, 
 end
 
 
