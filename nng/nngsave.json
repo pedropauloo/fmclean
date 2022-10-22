@@ -74,19 +74,23 @@
     },
     {
       "lean": "lemma mul_assoc (a b c : mynat) : (a * b) * c = a * (b * c) :=\n",
+      "isSolved": true,
       "editorText": "induction c with d hd,\r\nrw mul_zero (a * b),\r\nrw mul_zero b,\r\nrw mul_zero a,\r\nrefl,\r\nrw mul_succ b d,\r\nrw mul_add a (b * d) b,\r\nrw mul_succ (a * b) d,\r\nrw hd,\r\nrefl,"
     },
     {
       "lean": "lemma succ_mul (a b : mynat) : succ a * b = a * b + b :=\n",
+      "isSolved": true,
       "editorText": "induction b with c hc,\r\nrw mul_zero a,\r\nrw add_zero 0,\r\nrw mul_zero (succ a),\r\nrefl,\r\nrw add_succ (a * (succ c)) c,\r\nrw mul_succ a c,\r\nrw add_right_comm (a * c) a c,\r\nrw ← hc,\r\nrw mul_succ (succ a) c,\r\nrw ← add_succ (succ a * c) a,\r\nrefl,\r\n\r\n"
     },
     {
       "lean": "lemma add_mul (a b t : mynat) : (a + b) * t = a * t + b * t :=\n",
+      "isSolved": true,
       "editorText": "induction a with c hc,\r\nrepeat {rw zero_add},\r\nrw zero_mul t,\r\nrw zero_add (b * t),\r\nrefl,\r\nrw succ_add c b,\r\nrw succ_mul (c + b) t,\r\nrw succ_mul c t,\r\nrw hc,\r\nrw add_right_comm (c * t) (b * t) t,\r\nrefl,"
     },
     {
       "lean": "lemma mul_comm (a b : mynat) : a * b = b * a :=\n",
-      "editorText": "induction a with c hc,\r\nrw zero_mul b,\r\nrw mul_zero b,\r\nrefl,\r\nrw succ_mul c b,\r\nrw mul_succ b c,\r\nrw hc,\r\nrefl,"
+      "isSolved": true,
+      "editorText": "induction a with c hc,\r\nrw zero_mul b,\r\nrw mul_zero b,\r\nrefl,\r\nrw succ_mul c b,\r\nrw mul_succ b c,\r\nrw hc,\r\nrefl,\r\n"
     },
     {
       "lean": "lemma mul_left_comm (a b c : mynat) : a * (b * c) = b * (a * c) :=\n",
@@ -115,14 +119,17 @@
     },
     {
       "lean": "lemma pow_add (a m n : mynat) : a ^ (m + n) = a ^ m * a ^ n :=\n",
+      "isSolved": true,
       "editorText": "induction m with u hu,\r\nrw zero_add n,\r\nrw pow_zero a,\r\nrw one_mul (a ^ n),\r\nrefl,\r\nrw succ_add u n,\r\nrw pow_succ a (u + n),\r\nrw hu,\r\nrw pow_succ a u,\r\nrw mul_assoc (a ^ u) a (a ^ n),\r\nrw mul_comm a (a ^ n),\r\nrw ← mul_assoc (a ^ u) (a ^ n) a,\r\nrefl,"
     },
     {
       "lean": "lemma mul_pow (a b n : mynat) : (a * b) ^ n = a ^ n * b ^ n :=\n",
+      "isSolved": true,
       "editorText": "induction n with m hm,\r\nrw pow_zero (a * b),\r\nrw pow_zero a,\r\nrw pow_zero b,\r\nrw mul_one 1,\r\nrefl,\r\nrw pow_succ a m,\r\nrw pow_succ b m,\r\nrw pow_succ (a * b) m,\r\nrw hm,\r\nrw mul_assoc (a ^ m) a (b ^ m * b),\r\nrw mul_comm a (b ^ m * b),\r\nrw mul_assoc (b ^ m) b a,\r\nrw mul_comm b a,\r\nrw ← mul_assoc (a ^ m) (b ^ m) (a * b),\r\nrefl,"
     },
     {
       "lean": "lemma pow_pow (a m n : mynat) : (a ^ m) ^ n = a ^ (m * n) :=\n",
+      "isSolved": true,
       "editorText": "induction m with p hp,\r\nrw pow_zero a,\r\nrw one_pow n,\r\nrw zero_mul n,\r\nrw pow_zero a,\r\nrefl,\r\nrw pow_succ a,\r\nrw mul_pow (a ^ p) a n,\r\nrw hp,\r\nrw succ_mul p n,\r\nrw pow_add a (p * n) n,\r\nrefl,\r\n"
     },
     {
@@ -132,43 +139,53 @@
     },
     {
       "lean": "example (P Q : Type) (p : P) (h : P → Q) : Q :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "exact h(p),"
     },
     {
       "lean": "example : mynat → mynat :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro p,\r\nexact p,"
     },
     {
       "lean": "example (P Q R S T U: Type)\n(p : P)\n(h : P → Q)\n(i : Q → R)\n(j : Q → T)\n(k : S → T)\n(l : T → U)\n: U :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "have q : Q := h p,\r\nhave t : T := j q,\r\nhave u : U := l t,\r\nexact u,\r\n"
     },
     {
       "lean": "example (P Q R S T U: Type)\n(p : P)\n(h : P → Q)\n(i : Q → R)\n(j : Q → T)\n(k : S → T)\n(l : T → U)\n: U :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "apply l,\r\napply j,\r\napply h,\r\nexact p,"
     },
     {
       "lean": "example (P Q : Type) : P → (Q → P) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros p q,\r\nexact p,"
     },
     {
       "lean": "example (P Q R : Type) : (P → (Q → R)) → ((P → Q) → (P → R)) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros f h p, \r\nhave j : Q → R := f p,\r\nhave q : Q := h p,\r\nhave r : R := j q,\r\nexact r,"
     },
     {
       "lean": "example (P Q F : Type) : (P → Q) → ((Q → F) → (P → F)) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros hpq hqf p, \r\nhave q : Q := hpq p,\r\nhave f : F := hqf q,\r\nexact f,"
     },
     {
       "lean": "example (P Q : Type) : (P → Q) → ((Q → empty) → (P → empty)) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros hpq hqe p,\r\napply hqe,\r\napply hpq,\r\nexact p,"
     },
     {
       "lean": "example (A B C D E F G H I J K L : Type)\n(f1 : A → B) (f2 : B → E) (f3 : E → D) (f4 : D → A) (f5 : E → F)\n(f6 : F → C) (f7 : B → C) (f8 : F → G) (f9 : G → J) (f10 : I → J)\n(f11 : J → I) (f12 : I → H) (f13 : E → H) (f14 : H → K) (f15 : I → L)\n : A → L :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "-- I → L \\ J → I \\ G → J \\ F → G \\ E → F \\ B → E\r\nintro a,\r\napply f15,\r\napply f11,\r\napply f9,\r\napply f8,\r\napply f5,\r\napply f2,\r\napply f1,\r\nexact a,\r\n"
     },
     {
       "lean": "example (P Q : Prop) (p : P) (h : P → Q) : Q :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "have q : Q := h(p),\r\nexact q,"
     },
     {
       "lean": "lemma imp_self (P : Prop) : P → P :=\n",
