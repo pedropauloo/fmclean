@@ -250,7 +250,7 @@
     {
       "lean": "lemma iff_trans (P Q R : Prop) : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=\n",
       "isSolved": true,
-      "editorText": "intros hpq hqr, \r\nsplit,\r\nintro p,\r\napply hqr.1,\r\napply hpq.1,\r\nexact p,\r\nintro r,\r\napply hpq.2,\r\napply hqr.2,\r\nexact r,"
+      "editorText": "intros hpq hqr,\r\ncases hpq with pq qp,\r\ncases hqr with qr rq,\r\nsplit,\r\nintro p,\r\napply qr,\r\napply pq,\r\nexact p,\r\nintro r,\r\napply qp,\r\napply rq,\r\nexact r,\r\n"
     },
     {
       "lean": "example (P Q : Prop) : Q → (P ∨ Q) :=\n",
@@ -314,27 +314,33 @@
     },
     {
       "lean": "lemma eq_zero_of_add_right_eq_self {a b : mynat} : a + b = a → b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\nexact add_left_cancel a b 0 h,"
     },
     {
       "lean": "theorem succ_ne_zero (a : mynat) : succ a ≠ 0 := \n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "symmetry,\r\nexact zero_ne_succ a,"
     },
     {
       "lean": "lemma add_left_eq_zero {{a b : mynat}} (H : a + b = 0) : b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "cases b with d, -- LEM\r\nrefl,\r\nrw add_succ at H,\r\nexfalso,\r\nexact succ_ne_zero (a + d) H,"
     },
     {
       "lean": "lemma add_right_eq_zero {a b : mynat} : a + b = 0 → a = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro H,\r\nrw add_comm a b at H,\r\nexact add_left_eq_zero H,"
     },
     {
       "lean": "theorem add_one_eq_succ (d : mynat) : d + 1 = succ d :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "symmetry,\r\nrw succ_eq_add_one d,\r\nrefl,"
     },
     {
       "lean": "lemma ne_succ_self (n : mynat) : n ≠ succ n :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction n with k hi,\r\nexact zero_ne_succ 0,\r\nintro h,\r\nrw succ_eq_succ_iff k (succ k) at h,\r\napply hi,\r\nexact h,"
     },
     {
       "lean": "theorem mul_pos (a b : mynat) : a ≠ 0 → b ≠ 0 → a * b ≠ 0 :=\n",
