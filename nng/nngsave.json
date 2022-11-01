@@ -389,6 +389,7 @@
     },
     {
       "lean": "theorem le_antisymm (a b : mynat) (hab : a ≤ b) (hba : b ≤ a) : a = b :=\n",
+      "isSolved": true,
       "editorText": "cases hab with c hc,\r\ncases hba with d hd,\r\nrw hc at hd,\r\nrw add_assoc a c d at hd,\r\nsymmetry at hd,\r\nhave h := eq_zero_of_add_right_eq_self hd,\r\nhave he := add_right_eq_zero h,\r\nrw he at hc,\r\nsymmetry,\r\nexact hc,"
     },
     {
@@ -418,27 +419,33 @@
     },
     {
       "lean": "theorem le_of_succ_le_succ (a b : mynat) : succ a ≤ succ b → a ≤ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ncases h with c hc,\r\nrw [succ_add, succ_eq_succ_iff] at hc,\r\nuse c,\r\nexact hc,"
     },
     {
       "lean": "theorem not_succ_le_self (a : mynat) : ¬ (succ a ≤ a) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction a with b hb,\r\nintro h,\r\ncases h with c hc,\r\n\r\nrw succ_add 0 c at hc,\r\nrw zero_add at hc,\r\napply succ_ne_zero c,\r\nsymmetry,\r\nexact hc,\r\n\r\nintro h,\r\nhave hq := le_of_succ_le_succ (succ b) b h,\r\napply hb,\r\nexact hq,\r\n\r\n"
     },
     {
       "lean": "theorem add_le_add_left {a b : mynat} (h : a ≤ b) (t : mynat) :\n  t + a ≤ t + b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "cases h with c hc,\r\nuse c,\r\nrw hc,\r\nrw add_assoc t a c,\r\nrefl,"
     },
     {
       "lean": "lemma lt_aux_one (a b : mynat) : a ≤ b ∧ ¬ (b ≤ a) → succ a ≤ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ncases h with h1 h2,\r\ncases h1 with c hc,\r\n\r\ncases c,\r\n\r\nrw add_zero at hc,\r\nrw hc,\r\nexfalso,\r\napply h2,\r\nuse 0,\r\nrw add_zero,\r\nsymmetry,\r\nexact hc,\r\n\r\nrw hc,\r\nuse c,\r\nrw add_succ,\r\nrw succ_add,\r\nrefl,\r\n\r\n\r\n"
     },
     {
       "lean": "lemma lt_aux_two (a b : mynat) : succ a ≤ b → a ≤ b ∧ ¬ (b ≤ a) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro h,\r\ncases h with c hc,\r\nsplit,\r\nuse succ c,\r\nrw succ_add at hc,\r\nrw add_succ,\r\nexact hc,\r\n\r\nrw hc,\r\nintro h,\r\nhave q := add_le_add_right h c,\r\ncases q with d hd,\r\napply not_succ_le_self (a + c),\r\nuse c + d,\r\nrw succ_add at hd,\r\nrw add_assoc at hd,\r\nexact hd,"
     },
     {
       "lean": "lemma lt_iff_succ_le (a b : mynat) : a < b ↔ succ a ≤ b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "split,\r\nintro h,\r\napply lt_aux_one at h,\r\nexact h,\r\n\r\nintro h,\r\napply lt_aux_two at h,\r\nexact h,"
     }
   ]
 }
